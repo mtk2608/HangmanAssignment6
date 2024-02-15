@@ -4,18 +4,27 @@
              x:Class="HangmanAssignment.HangmanGamePage"
              Title="MAUI Hangman Assignment">
     <VerticalStackLayout>
-        <Label Text="Welcome to Hangman" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontAttributes="Bold" FontSize="40"/>
-        <Image Margin="40" Source="{Binding CurrentImage}" HorizontalOptions="Center"/>
+
+        <Label Text="{Binding Message}" FontSize="30" TextColor="Black" Margin="50" HorizontalTextAlignment="Center"/>
+
+        <Image Margin="40" Source="{Binding CurrentImage}" HorizontalOptions="Center" HeightRequest="300" />
         
         <Label FontAttributes="Bold" FontSize="30" HorizontalOptions="Center" Margin="40" Text="{Binding Spotlight}"/>
+        
+        
 
-        <Entry x:Name="GuessBox" Placeholder="Enter Guess" HorizontalOptions="Center"/>
+        <Entry x:Name="GuessBox" Placeholder="Enter Guess" HorizontalOptions="Center" />
 
-        <Button x:Name="Guess" Text="Guess" Clicked="Guess_Clicked" VerticalOptions="Center" Margin="0,100,0,0"/>
+        <Label Text="{Binding GameStatus}"  FontSize="20" Margin="40" HorizontalTextAlignment="Center" />
 
-        <Button Text="Reset" Clicked="Reset_Clicked"
+        <Button x:Name="Guess" Text="Guess" Clicked="Guess_Clicked" VerticalOptions="Center" Margin="0,80,0,0" CornerRadius="50" HeightRequest="60" WidthRequest="300"  BackgroundColor="Orange" BorderColor="Black" BorderWidth ="2"/>
+
+        <ImageButton Clicked="Reset_Clicked"
             HeightRequest ="100"
-            WidthRequest ="300"/>
+            WidthRequest ="300"
+                CornerRadius="50"
+                     Source="reset.png"
+                     Margin="0,50,0,0"/>
 
     </VerticalStackLayout>
 </ContentPage>

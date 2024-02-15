@@ -8,17 +8,15 @@ namespace HangmanAssignment;
 
 public partial class HangmanGamePage : ContentPage, INotifyPropertyChanged
 {
-    //Properties
     public string Spotlight
     {
         get => spotlight;
         set
         {
             spotlight = value;
-            OnPropertyChanged();
+            OnPropertyChanged(nameof(Spotlight));
         }
     }
-
     public List<char> Letters
     {
         get => letters;
@@ -59,55 +57,49 @@ public partial class HangmanGamePage : ContentPage, INotifyPropertyChanged
         }
     }
 
-    public ICommand GuessCommand => new Command<char>(HandleGuess);
 
 
 
     //Fields
-
     List<string> words = new()
-        {
-            "python",
-            "javascript",
-            "maui",
-            "csharp",
-            "mongodb",
-            "sql",
-            "xaml",
-            "word",
-            "excel",
-            "powerpoint",
-            "code",
-            "hotreload",
-            "snippets",
-            "itna",
-            "ctmehr",
-            "pooyesh"
-        };
+    {
+        "python",
+        "javascript",
+        "maui",
+        "csharp",
+        "sql",
+        "xaml",
+        "word",
+        "excel",
+        "powerpoint",
+        "code",
+         "java",
+         "javascript"
+
+    };
     string answer = "";
     private string spotlight;
     private List<char> guessed = new();
     private List<char> letters = new();
     private string message;
     private int mistakes = 0;
-    private int maxWrong = 7;
+    private int maxWrong = 8;
     private string gameStatus;
     private string currentImage = "hang1.png";
 
 
     //Constructor
-
     public HangmanGamePage()
     {
         InitializeComponent();
         BindingContext = this;
         PickWord();
         CalculateWord(answer, guessed);
+
     }
 
 
     //GameEngine
-
     private void PickWord()
     {
         answer =
@@ -127,9 +119,10 @@ public partial class HangmanGamePage : ContentPage, INotifyPropertyChanged
     {
         if (guessed.Contains(letter))
         {
-            guessed.Add(letter);
-            Letters.Remove(letter);
+            return;
         }
+
+        guessed.Add(letter);
 
         if (answer.Contains(letter))
         {
@@ -144,13 +137,14 @@ public partial class HangmanGamePage : ContentPage, INotifyPropertyChanged
             CurrentImage = $"hang{mistakes}.png";
         }
 
+        Letters.Remove(letter);
     }
 
     private void CheckIfGameWon()
     {
         if (Spotlight.Replace(" ", "") == answer)
         {
-            Message = "You Win";
+            Message = "You Win!!";
         }
     }
 
@@ -158,7 +152,9 @@ public partial class HangmanGamePage : ContentPage, INotifyPropertyChanged
     {
         if (mistakes == maxWrong)
         {
-            Message = "You Lost!!";
+
+            Message = "You Lost! Try again";
+
         }
     }
 
@@ -173,39 +169,19 @@ public partial class HangmanGamePage : ContentPage, INotifyPropertyChanged
         Message = "";
     }
 
-    /*rivate void DisableLetters()
-     {
-         foreach (var child in LettersContainer.Children)
-         {
-             var btn = child as Button;
-             if (btn != null)
-                 btn.IsEnabled = false;
-         }
-     }
-
-     private void EnableLetters()
-     {
-         foreach (var child in LettersContainer.Children)
-         {
-             var btn = child as Button;
-             if (btn != null)
-                 btn.IsEnabled = true;
-         }
-     }*/
-
-
-
     private void UpdateStatus()
     {
         GameStatus = $"Error: {mistakes} of {maxWrong}";
     }
 
+
     //event Handlers
     private void Guess_Clicked(object sender, EventArgs e)
     {
 
-            string letter = GuessBox.Text;
-            HandleGuess(letter[0]);
+        string letter = GuessBox.Text;
+        HandleGuess(letter[0]);
+        GuessBox.Text = string.Empty;
 
     }
 
